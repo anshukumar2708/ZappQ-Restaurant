@@ -23,6 +23,7 @@ import NotFound from "./pages/NotFound";
 import Header from "./components/ui/header";
 import Footer from "./components/ui/footer";
 import RegistrationScreen from "./pages/RegistrationScreen";
+import RestaurantDashboard from "./pages/Restaurant/RestaurantDashboard";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,10 @@ const App = () => (
             <Route path="/confirmation" element={<OrderConfirmationScreen />} />
             <Route path="/tracking" element={<OrderTrackingScreen />} />
             <Route path="/qr" element={<QRGenerator />} />
+
+            {/* Restaurant Owner */}
+            <Route path="/dashboard" element={<RestaurantDashboard />} />
+
 
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
