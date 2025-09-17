@@ -4,17 +4,22 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
+
 import { store } from "./store/store";
-import LandingScreen from "./pages/LandingScreen";
+
+// Screens
+import HomeScreen from "./pages/HomeScreen";
+import LoginScreen from "./pages/LoginScreen";
 import MenuScreen from "./pages/MenuScreen";
 import CartScreen from "./pages/CartScreen";
 import CheckoutScreen from "./pages/CheckoutScreen";
 import OrderConfirmationScreen from "./pages/OrderConfirmationScreen";
 import OrderTrackingScreen from "./pages/OrderTrackingScreen";
-import NotFound from "./pages/NotFound";
-import QR from "./pages/QRGenerator";
 import QRGenerator from "./pages/QRGenerator";
-import HomeScreen from "./pages/HomeScreen";
+import NotFound from "./pages/NotFound";
+// import LandingScreen from "./pages/LandingScreen";
+
+// Components
 import Header from "./components/ui/header";
 import Footer from "./components/ui/footer";
 
@@ -26,22 +31,26 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <Header />
         <BrowserRouter>
+          <Header />
+
           <Routes>
             <Route path="/" element={<HomeScreen />} />
             {/* <Route path="/" element={<LandingScreen />} /> */}
+            <Route path="/login" element={<LoginScreen />} />
             <Route path="/menu" element={<MenuScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/checkout" element={<CheckoutScreen />} />
             <Route path="/confirmation" element={<OrderConfirmationScreen />} />
             <Route path="/tracking" element={<OrderTrackingScreen />} />
             <Route path="/qr" element={<QRGenerator />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+
+            {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
           </Routes>
+
+          <Footer />
         </BrowserRouter>
-        <Footer />
       </TooltipProvider>
     </QueryClientProvider>
   </Provider>
