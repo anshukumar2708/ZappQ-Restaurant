@@ -14,6 +14,9 @@ import OrderTrackingScreen from "./pages/OrderTrackingScreen";
 import NotFound from "./pages/NotFound";
 import QR from "./pages/QRGenerator";
 import QRGenerator from "./pages/QRGenerator";
+import HomeScreen from "./pages/HomeScreen";
+import Header from "./components/ui/header";
+import Footer from "./components/ui/footer";
 
 const queryClient = new QueryClient();
 
@@ -23,9 +26,11 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <Header />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LandingScreen />} />
+            <Route path="/" element={<HomeScreen />} />
+            {/* <Route path="/" element={<LandingScreen />} /> */}
             <Route path="/menu" element={<MenuScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/checkout" element={<CheckoutScreen />} />
@@ -36,6 +41,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
+        <Footer />
       </TooltipProvider>
     </QueryClientProvider>
   </Provider>
