@@ -54,7 +54,7 @@ const LoginScreen = () => {
                             <Link to="/forgot-password" className="text-primary hover:underline">
                                 Forgot password?
                             </Link>
-                            <Link to="/signup" className="text-primary hover:underline">
+                            <Link to="/registration" className="text-primary hover:underline">
                                 Create an account
                             </Link>
                         </div>

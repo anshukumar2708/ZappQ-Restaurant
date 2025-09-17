@@ -22,6 +22,7 @@ import NotFound from "./pages/NotFound";
 // Components
 import Header from "./components/ui/header";
 import Footer from "./components/ui/footer";
+import RegistrationScreen from "./pages/RegistrationScreen";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/" element={<HomeScreen />} />
             {/* <Route path="/" element={<LandingScreen />} /> */}
             <Route path="/login" element={<LoginScreen />} />
+            <Route path="/registration" element={<RegistrationScreen />} />
             <Route path="/menu" element={<MenuScreen />} />
             <Route path="/cart" element={<CartScreen />} />
             <Route path="/checkout" element={<CheckoutScreen />} />
