@@ -1,35 +1,47 @@
 import { useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
 
 const QRGenerator = () => {
-    const [companyId, setCompanyId] = useState("12345");
-    const [tableNumber, setTableNumber] = useState("10");
+    const [companyId, setCompanyId] = useState("");
+    const [tableNumber, setTableNumber] = useState("");
+    const [qrValue, setQrValue] = useState("");
 
-    // Generate value (could be JSON, URL, or any string)
-    const qrValue = JSON.stringify({
-        companyId,
-        tableNumber,
-    });
+    const generateQRCode = () => {
+        const qrData = JSON.stringify({ companyId, tableNumber });
+        setQrValue(qrData);
+    };
 
     return (
-        <div style={{ textAlign: "center", marginTop: "50px" }}>
-            <h2>QR Code Generator</h2>
+        <div className="flex flex-col gap-4">
+            <input
+                type="text"
+                placeholder="Enter Company ID"
+                value={companyId}
+                onChange={(e) => setCompanyId(e.target.value)}
+                className="border p-2 rounded"
+            />
 
-            {/* <QRCode value={qrValue} size={200} /> */}
+            <input
+                type="text"
+                placeholder="Enter Table Number"
+                value={tableNumber}
+                onChange={(e) => setTableNumber(e.target.value)}
+                className="border p-2 rounded"
+            />
 
-            <div style={{ marginTop: "20px" }}>
-                <input
-                    type="text"
-                    placeholder="Company ID"
-                    value={companyId}
-                    onChange={(e) => setCompanyId(e.target.value)}
-                />
-                <input
-                    type="text"
-                    placeholder="Table Number"
-                    value={tableNumber}
-                    onChange={(e) => setTableNumber(e.target.value)}
-                />
-            </div>
+            <button
+                onClick={generateQRCode}
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+            >
+                Generate QR
+            </button>
+
+            {qrValue && (
+                <div className="mt-4">
+                    <QRCodeSVG value={qrValue} size={150} />
+                    <p className="text-sm mt-2">QR Data: {qrValue}</p>
+                </div>
+            )}
         </div>
     );
 };

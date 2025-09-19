@@ -27,12 +27,13 @@ import Dashboard from "./pages/Dashboard";
 import AuthLayout from "./components/ui/authLayout";
 import TableManagement from "./pages/Restaurant/TableManagement";
 import { ConfigProvider } from "antd";
+import MenuManagement from "./pages/Restaurant/MenuManagement";
 
 const queryClient = new QueryClient();
 
 const themeConfig = {
   token: {
-    colorPrimary: "hsl(var(--primary))",
+    colorPrimary: "hsl(15, 85%, 55%)",
     colorPrimaryHover: "hsl(var(--primary-light))",
     colorPrimaryActive: "hsl(var(--primary-dark))",
   },
@@ -65,6 +66,7 @@ const App = () => (
               <Route element={<AuthLayout />} >
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/table-management" element={<TableManagement />} />
+                <Route path="/menu-management" element={<MenuManagement />} />
               </Route>
 
               {/* Catch-all route */}

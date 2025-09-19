@@ -1,13 +1,11 @@
 import { useState } from "react";
-import { Table, Button, Input, Modal, Form, Select, Pagination, Image, Space } from "antd";
+import { Table, Button, Pagination, Image, Space } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Search } from "lucide-react";
+import CustomModal from "@/components/ui/custom-modal";
+import AddUpdateTable from "./AddUpdateTable";
+import { QRCodeSVG } from "qrcode.react";
 
-const { Option } = Select;
-
-const primaryColor = "#1890ff";
-
-// Dummy data
 const restaurantOptions = [
     { label: "ZappQ Diner", value: "ZappQ Diner" },
     { label: "Aimsoft Cafe", value: "Aimsoft Cafe" },
@@ -17,27 +15,23 @@ const dummyTables = [
     {
         key: "1",
         restaurant: "ZappQ Diner",
-        tableNumber: "T01",
-        image: "https://via.placeholder.com/40",
+        tableNumber: "T-01",
     },
     {
         key: "2",
         restaurant: "Aimsoft Cafe",
-        tableNumber: "T02",
-        image: "https://via.placeholder.com/40",
+        tableNumber: "T-02",
     },
     {
         key: "3",
         restaurant: "ZappQ Diner",
-        tableNumber: "T03",
-        image: "https://via.placeholder.com/40",
+        tableNumber: "T-03",
     },
 ];
 
 const TableManagement = () => {
     const [search, setSearch] = useState("");
     const [modalVisible, setModalVisible] = useState(false);
-    const [form] = Form.useForm();
     const [data, setData] = useState(dummyTables);
     const [current, setCurrent] = useState(1);
     const pageSize = 5;
@@ -49,44 +43,32 @@ const TableManagement = () => {
     );
 
     const columns = [
-        {
-            title: "Restaurant Name",
-            dataIndex: "restaurant",
-            key: "restaurant",
-        },
-        {
-            title: "Table Number",
-            dataIndex: "tableNumber",
-            key: "tableNumber",
-        },
+        { title: "Restaurant Name", dataIndex: "restaurant", key: "restaurant" },
+        { title: "Table Number", dataIndex: "tableNumber", key: "tableNumber" },
         {
             title: "Image",
             dataIndex: "image",
             key: "image",
-            render: (src: string) => <Image src={src} width={40} height={40} />,
+            render: (_, record) => {
+                const qrData = JSON.stringify({ restaurant: record?.restaurant, tableNumber: record?.tableNumber });
+                return (
+                    <QRCodeSVG value={qrData} size={50} />
+                )
+            },
         },
         {
             title: "Action",
             key: "action",
             render: (_, record) => (
                 <Space>
-                    <Button
-                        icon={<EditOutlined />}
-                        type="link"
-                        style={{ color: primaryColor }}
-                    >
-                    </Button>
-                    <Button
-                        icon={<DeleteOutlined />}
-                        type="link"
-                        danger
-                    >
-                    </Button>
+                    <Button icon={<EditOutlined />} type="link" />
+                    <Button icon={<DeleteOutlined />} type="link" danger />
                 </Space>
             ),
         },
     ];
 
+    // Handles data when AddUpdateTable form is submitted
     const handleAddTable = (values) => {
         setData([
             ...data,
@@ -94,23 +76,20 @@ const TableManagement = () => {
                 key: (data.length + 1).toString(),
                 restaurant: values.restaurant,
                 tableNumber: values.tableNumber,
-                image: values.image || "https://via.placeholder.com/40",
             },
         ]);
         setModalVisible(false);
-        form.resetFields();
     };
 
     return (
         <div style={{ padding: 24 }}>
+            {/* Search & Add Button */}
             <div className="w-full flex justify-between mb-6">
                 <div className="w-full max-w-md">
                     <div className="w-full relative flex items-center">
-                        {/* Search Icon */}
                         <span className="absolute left-3 text-muted-foreground">
                             <Search size={18} />
                         </span>
-                        {/* Input Field */}
                         <input
                             placeholder="Search tables"
                             value={search}
@@ -119,6 +98,7 @@ const TableManagement = () => {
                         />
                     </div>
                 </div>
+
                 <button
                     className="flex items-center space-x-2 bg-primary text-primary-foreground px-4 py-2 rounded-md transition hover:bg-transparent hover:text-primary border-2 hover:border-primary hover:shadow-lg"
                     onClick={() => setModalVisible(true)}
@@ -127,12 +107,16 @@ const TableManagement = () => {
                     Add Table
                 </button>
             </div>
+
+            {/* Table */}
             <Table
                 columns={columns}
                 dataSource={filteredData.slice((current - 1) * pageSize, current * pageSize)}
                 pagination={false}
                 rowKey="key"
             />
+
+            {/* Pagination */}
             <div style={{ marginTop: 16, textAlign: "right" }}>
                 <Pagination
                     current={current}
@@ -142,56 +126,14 @@ const TableManagement = () => {
                     showSizeChanger={false}
                 />
             </div>
-            <Modal
-                title="Add Table"
+
+            {/* Add Update Table */}
+            <CustomModal
                 visible={modalVisible}
-                onCancel={() => setModalVisible(false)}
-                footer={null}
-                destroyOnClose
+                onClose={() => setModalVisible(false)}
             >
-                <Form form={form} layout="vertical" onFinish={handleAddTable}>
-                    <Form.Item
-                        label="Restaurant Name"
-                        name="restaurant"
-                        rules={[{ required: true, message: "Please select a restaurant" }]}
-                    >
-                        <Select
-                            placeholder="Select restaurant"
-                            style={{ width: "100%" }}
-                            dropdownStyle={{ color: primaryColor }}
-                        >
-                            {restaurantOptions.map((r) => (
-                                <Option key={r.value} value={r.value}>
-                                    {r.label}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Form.Item>
-                    <Form.Item
-                        label="Table Number"
-                        name="tableNumber"
-                        rules={[{ required: true, message: "Please enter table number" }]}
-                    >
-                        <Input placeholder="Enter table number" />
-                    </Form.Item>
-                    <Form.Item label="Image URL" name="image">
-                        <Input placeholder="Enter image URL (optional)" />
-                    </Form.Item>
-                    <Form.Item>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            style={{
-                                background: primaryColor,
-                                borderColor: primaryColor,
-                                width: "100%",
-                            }}
-                        >
-                            Add Table
-                        </Button>
-                    </Form.Item>
-                </Form>
-            </Modal>
+                <AddUpdateTable restaurantOptions={restaurantOptions} onSubmit={handleAddTable} />
+            </CustomModal>
         </div>
     );
 };
