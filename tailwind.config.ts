@@ -50,9 +50,16 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+      borderColor: {
+        primary: "hsl(var(--primary))",
+        DEFAULT: "hsl(var(--primary))",
+        foreground: "hsl(var(--primary-foreground))",
+        light: "hsl(var(--primary-light))",
+        dark: "hsl(var(--primary-dark))",
+      },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',
-        'gradient-secondary': 'var(--gradient-secondary)', 
+        'gradient-secondary': 'var(--gradient-secondary)',
         'gradient-hero': 'var(--gradient-hero)',
       },
       boxShadow: {

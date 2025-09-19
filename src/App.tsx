@@ -23,50 +23,60 @@ import NotFound from "./pages/NotFound";
 import Header from "./components/ui/header";
 import Footer from "./components/ui/footer";
 import RegistrationScreen from "./pages/RegistrationScreen";
-import RestaurantDashboard from "./pages/Restaurant/RestaurantDashboard";
 import Dashboard from "./pages/Dashboard";
 import AuthLayout from "./components/ui/authLayout";
 import TableManagement from "./pages/Restaurant/TableManagement";
+import { ConfigProvider } from "antd";
 
 const queryClient = new QueryClient();
 
+const themeConfig = {
+  token: {
+    colorPrimary: "hsl(var(--primary))",
+    colorPrimaryHover: "hsl(var(--primary-light))",
+    colorPrimaryActive: "hsl(var(--primary-dark))",
+  },
+};
+
 const App = () => (
-  <Provider store={store}>
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Header />
+  <ConfigProvider theme={themeConfig}>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Header />
 
-          <Routes>
-            <Route path="/" element={<HomeScreen />} />
-            {/* <Route path="/" element={<LandingScreen />} /> */}
-            <Route path="/login" element={<LoginScreen />} />
-            <Route path="/registration" element={<RegistrationScreen />} />
-            <Route path="/menu" element={<MenuScreen />} />
-            <Route path="/cart" element={<CartScreen />} />
-            <Route path="/checkout" element={<CheckoutScreen />} />
-            <Route path="/confirmation" element={<OrderConfirmationScreen />} />
-            <Route path="/tracking" element={<OrderTrackingScreen />} />
-            <Route path="/qr" element={<QRGenerator />} />
+            <Routes>
+              <Route path="/" element={<HomeScreen />} />
+              {/* <Route path="/" element={<LandingScreen />} /> */}
+              <Route path="/login" element={<LoginScreen />} />
+              <Route path="/registration" element={<RegistrationScreen />} />
+              <Route path="/menu" element={<MenuScreen />} />
+              <Route path="/cart" element={<CartScreen />} />
+              <Route path="/checkout" element={<CheckoutScreen />} />
+              <Route path="/confirmation" element={<OrderConfirmationScreen />} />
+              <Route path="/tracking" element={<OrderTrackingScreen />} />
+              <Route path="/qr" element={<QRGenerator />} />
 
-            {/* Restaurant Owner */}
+              {/* Restaurant Owner */}
 
-            <Route element={<AuthLayout />} >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/table-management" element={<TableManagement />} />
-            </Route>
+              <Route element={<AuthLayout />} >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/table-management" element={<TableManagement />} />
+              </Route>
 
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
 
-          <Footer />
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  </Provider>
+            <Footer />
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </Provider>
+  </ConfigProvider>
 );
 
 export default App;
